@@ -4,6 +4,6 @@
 /.idea
 /test/
 /target/
-.iml
-.xml
+*.iml
+*.xml
 

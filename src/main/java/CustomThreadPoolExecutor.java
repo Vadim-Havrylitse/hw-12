@@ -1,4 +1,5 @@
-import java.text.Annotation;
+
+import java.lang.annotation.Annotation;
 import java.util.concurrent.*;
 
 public class CustomThreadPoolExecutor extends ThreadPoolExecutor {
@@ -8,20 +9,19 @@ public class CustomThreadPoolExecutor extends ThreadPoolExecutor {
                 100,
                 50000,
                 TimeUnit.MINUTES,
-                new LinkedBlockingQueue<Runnable>());
+                new LinkedBlockingQueue<>());
     }
 
     @Override
     public void execute(Runnable command) {
-        Annotation[] annotations = (Annotation[]) command.getClass().getDeclaredAnnotations();
+        Class<?> clazz = command.getClass();
+        Annotation[] annotations = command.getClass().getDeclaredAnnotations();
         for (Annotation annotation : annotations){
-            if (annotation.getClass().getName().equals(Repeat.class.getName())){
-                for (int i = (int)annotation.getValue(); i >0; i--){
+            if (clazz.isAnnotationPresent(Repeat.class)){
+                for (int i = clazz.getAnnotation(Repeat.class).value(); i >0; i--){
                     super.execute(command);
                 }
             }
         }
-
-
     }
 }

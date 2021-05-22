@@ -1,7 +1,7 @@
 import java.lang.annotation.*;
 
 @Inherited
-//@Target({ElementType.ANNOTATION_TYPE})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Repeat {
     int value() default 1;
